@@ -1,0 +1,25 @@
+out
+build
+target
+
+*.iml
+*.class
+
+.idea
+.classpath
+.project
+.gradle
+
+# Vim Backup/Swap Files
+*~
+.swp
+.*.swp
+
+/.settings/
+/LICENSE.txt
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
