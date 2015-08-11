@@ -11,6 +11,8 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.8.3'
+    compile group: 'com.squareup.okhttp', name: 'okhttp', version: '2.4.0'
 }
 
 task wrapper(type: Wrapper) {
