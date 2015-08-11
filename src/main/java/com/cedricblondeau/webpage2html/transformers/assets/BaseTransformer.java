@@ -2,7 +2,7 @@ package com.cedricblondeau.webpage2html.transformers.assets;
 
 import java.util.Base64;
 
-public class BaseTransformer {
+public class BaseTransformer implements ITransformer {
 
     protected byte[] data;
     protected Base64.Encoder encoder;
