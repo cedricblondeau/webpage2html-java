@@ -28,6 +28,8 @@ public class HttpResourceFactory {
         } catch (MalformedURLException e) {
             System.out.println(e.getMessage());
             return null;
+        } catch (NullPointerException e) {
+            return null;
         }
     }
 }
