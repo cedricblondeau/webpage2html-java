@@ -2,8 +2,16 @@ group 'com.cedricblondeau'
 version '1.0.0'
 
 apply plugin: 'java'
+apply plugin: 'application'
 
 sourceCompatibility = 1.7
+
+mainClassName = "com.cedricblondeau.webpage2html.Console"
+run {
+    if (System.getProperty("exec.args")) {
+        args System.getProperty("exec.args").split()
+    }
+}
 
 repositories {
     mavenCentral()

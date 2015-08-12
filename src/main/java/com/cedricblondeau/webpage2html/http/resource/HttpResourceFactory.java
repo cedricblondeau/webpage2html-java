@@ -13,6 +13,7 @@ public class HttpResourceFactory {
         try {
             // Validate URL
             URL url = new URL(baseURL, resourceUrl);
+            System.out.println(String.format("Downloading %s", url));
 
             // Get HttpResource
             IHttpResource httpResource;
@@ -25,7 +26,7 @@ public class HttpResourceFactory {
             }
             return httpResource;
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return null;
         }
     }
