@@ -26,6 +26,7 @@ public class BaseTransformer implements ITransformer {
     /**
      * @return String A String containing the resulting Base64 encoded characters
      */
+    @Override
     public String getBase64() {
         return String.format("data:%s;base64,%s", mediaType, encoder.encodeToString(data));
     }
