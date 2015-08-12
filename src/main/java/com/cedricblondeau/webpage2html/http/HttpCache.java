@@ -10,9 +10,7 @@ public class HttpCache {
 
     public static HttpCache getInstance() {
         if (instance == null) {
-            if (instance == null) {
-                instance = new HttpCache();
-            }
+            instance = new HttpCache();
         }
         return instance;
     }
