@@ -63,7 +63,7 @@ public class HtmlTransformer {
         Elements scriptElements = document.getElementsByTag("script");
         for (Element element : scriptElements) {
             if (element.hasAttr("src") && !element.attr("src").isEmpty() && !element.attr("src").startsWith("data:")) {
-                ITransformer transformer = new TransformerFactory().get(element.attr("href"), baseUrl);
+                ITransformer transformer = new TransformerFactory().get(element.attr("src"), baseUrl);
                 if (transformer instanceof ITransformer) {
                     element.attr("src", transformer.getBase64());
                 }
@@ -75,7 +75,7 @@ public class HtmlTransformer {
         Elements imgElements = document.getElementsByTag("img");
         for (Element element : imgElements) {
             if (element.hasAttr("src") && !element.attr("src").isEmpty() && !element.attr("src").startsWith("data:")) {
-                ITransformer transformer = new TransformerFactory().get(element.attr("href"), baseUrl);
+                ITransformer transformer = new TransformerFactory().get(element.attr("src"), baseUrl);
                 if (transformer instanceof ITransformer) {
                     element.attr("src", transformer.getBase64());
                 }
