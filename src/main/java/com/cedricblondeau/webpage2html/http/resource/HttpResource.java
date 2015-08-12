@@ -15,6 +15,7 @@ public class HttpResource implements IHttpResource {
     public HttpResource(ResponseBody responseBody, URL url) {
         this.responseBody = responseBody;
         this.url = url;
+        buildMediaType();
     }
 
     protected void buildMediaType() {
