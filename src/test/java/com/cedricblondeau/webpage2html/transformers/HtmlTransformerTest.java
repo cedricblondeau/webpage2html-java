@@ -6,7 +6,6 @@ import org.jsoup.nodes.Element;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Base64;
 
 public class HtmlTransformerTest extends TestCase {
 
@@ -34,13 +33,19 @@ public class HtmlTransformerTest extends TestCase {
         assertTrue(element.attr("style").contains(String.format("data:image/png;base64,%s", base64)));
     }
 
-    public void testShouldTransformLinkHref() {
+    public void testShouldTransformLinkStylesheet() {
         String css = "body { background: red; }";
         HttpCacheUtils.cacheMockResourceFromSource("http://www.cedricblondeau.com/css/test.css", "text/css", css);
-        String html = "<link id='myLink' rel='stylesheet' href='/css/test.css' />";
+        String html = "<link rel='stylesheet' href='/css/test.css' />";
         HtmlTransformer htmlTransformer = getHtmlTransformer(html);
-        Element element = htmlTransformer.getDocument().getElementById("myLink");
-        assertTrue(element.attr("href").contains(String.format("data:text/css;base64,%s", Base64.getEncoder().encodeToString(css.getBytes()))));
+        Element element = htmlTransformer.getDocument().getElementsByTag("style").first();
+        assertEquals(css, element.html());
     }
 
+    public void testShouldNotTransformLinkCanonical() {
+        String html = "<link rel=\"canonical\" href=\"http:/www.cedricblondeau.com\">";
+        HtmlTransformer htmlTransformer = getHtmlTransformer(html);
+        Element element = htmlTransformer.getDocument().getElementsByTag("link").first();
+        assertEquals(html, element.outerHtml());
+    }
 }

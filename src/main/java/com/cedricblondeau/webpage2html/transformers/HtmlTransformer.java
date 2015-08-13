@@ -50,10 +50,19 @@ public class HtmlTransformer {
     protected void transformLink() {
         Elements linkElements = document.getElementsByTag("link");
         for (Element element : linkElements) {
-            if (element.hasAttr("href") && !element.attr("href").isEmpty() && !element.attr("href").startsWith("data:")) {
-                ITransformer transformer = new TransformerFactory().get(element.attr("href"), baseUrl);
-                if (transformer instanceof ITransformer) {
-                    element.attr("href", transformer.getBase64());
+            String rel = element.attr("rel");
+            if (!rel.isEmpty() && (rel.equals("stylesheet") || rel.equals("icon"))) {
+                String href = element.attr("href");
+                if (!href.isEmpty() && !href.startsWith("data:")) {
+                    ITransformer transformer = new TransformerFactory().get(element.attr("href"), baseUrl);
+                    if (transformer instanceof ITransformer) {
+                        if (transformer instanceof CssTransformer) {
+                            element.after(String.format("<style>%s</style>", ((CssTransformer) transformer).getContent()));
+                            element.remove();
+                        } else {
+                            element.attr("href", transformer.getBase64());
+                        }
+                    }
                 }
             }
         }
