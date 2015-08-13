@@ -31,7 +31,7 @@ public class HtmlTransformer {
     }
 
     protected void injectEncoding() {
-        if (!charset.isEmpty()) {
+        if (charset instanceof String) {
             boolean charsetDefinitionFound = document.head().getElementsByTag("meta").hasAttr("charset");
             if (!charsetDefinitionFound) {
                 document.head().append(String.format("<meta charset=\"%s\"/>", charset));

@@ -6,6 +6,7 @@ import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 public class WebPage2Html {
 
@@ -15,11 +16,12 @@ public class WebPage2Html {
         try {
             HttpRequest httpRequest = new HttpRequest(url);
             ResponseBody responseBody = httpRequest.getResponse().body();
-            htmlTransformer = new HtmlTransformer(
-                    responseBody.string(),
-                    url,
-                    responseBody.contentType().charset().name()
-            );
+            String content = responseBody.string();
+            String charset = null;
+            if (responseBody.contentType().charset() instanceof Charset) {
+                charset = responseBody.contentType().charset().name();
+            }
+            htmlTransformer = new HtmlTransformer(content, url, charset);
         } catch (IOException e) {
             e.printStackTrace();
         }
