@@ -6,7 +6,7 @@ import com.cedricblondeau.webpage2html.http.resource.IHttpResource;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Base64;
+import org.apache.commons.codec.binary.Base64;
 
 public class HttpCacheUtils {
 
@@ -16,7 +16,7 @@ public class HttpCacheUtils {
                     new URL(url),
                     mediaType,
                     null,
-                    Base64.getDecoder().decode(base64)
+                    Base64.decodeBase64(base64)
             );
             HttpCache.getInstance().put(resource.getUrl().toExternalForm(), resource);
         } catch (MalformedURLException e) {

@@ -31,7 +31,7 @@ public class CssTransformer extends BaseTransformer implements ITransformer {
      * Replace each URL between url('*') with a base64 value
      */
     protected void transform() {
-        Matcher m = Pattern.compile("url[\\s]*\\([\\s]*(?<url>[^\\)]*)\\)").matcher(content);
+        Matcher m = Pattern.compile("url\\((.*?)\\)").matcher(content);
         while(m.find()) {
             String foundURL = m.group(1);
             foundURL = foundURL.replace("\"", "");
