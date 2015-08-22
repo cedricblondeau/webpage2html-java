@@ -99,4 +99,8 @@ public class HtmlTransformer {
     public String getHtml() {
         return document.html();
     }
+
+    public String getTitle() {
+        return document.title();
+    }
 }
