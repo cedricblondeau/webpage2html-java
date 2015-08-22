@@ -30,4 +30,6 @@ public class WebPage2Html {
     public String getHtml() {
         return htmlTransformer.getHtml();
     }
+
+    public String getTitle() { return htmlTransformer.getTitle(); }
 }
