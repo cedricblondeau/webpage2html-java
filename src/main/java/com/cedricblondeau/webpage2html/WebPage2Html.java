@@ -22,6 +22,7 @@ public final class WebPage2Html {
                 charset = responseBody.contentType().charset().name();
             }
             htmlTransformer = new HtmlTransformer(content, url, charset);
+            htmlTransformer.transform();
         } catch (IOException e) {
             e.printStackTrace();
         }

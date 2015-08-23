@@ -21,6 +21,7 @@ public class HtmlTransformerTest extends TestCase {
     public void testShouldInjectMetaCharsetIfNotPresent() {
         String html = "<html><head><title>Héllo world!</title></head><body></body></html>";
         HtmlTransformer htmlTransformer = getHtmlTransformer(html);
+        htmlTransformer.transform();
         assertTrue(htmlTransformer.getDocument().head().getElementsByTag("meta").hasAttr("charset"));
     }
 
@@ -29,6 +30,7 @@ public class HtmlTransformerTest extends TestCase {
         HttpCacheUtils.cacheMockResourceFromBase64("http://www.cedricblondeau.com/img/test.png", "image/png", base64);
         String html = "<div id='myDiv' style='background: url(/img/test.png) center center;' />";
         HtmlTransformer htmlTransformer = getHtmlTransformer(html);
+        htmlTransformer.transform();
         Element element = htmlTransformer.getDocument().getElementById("myDiv");
         assertTrue(element.attr("style").contains(String.format("data:image/png;base64,%s", base64)));
     }
@@ -38,6 +40,7 @@ public class HtmlTransformerTest extends TestCase {
         HttpCacheUtils.cacheMockResourceFromSource("http://www.cedricblondeau.com/css/test.css", "text/css", css);
         String html = "<link rel='stylesheet' href='/css/test.css' />";
         HtmlTransformer htmlTransformer = getHtmlTransformer(html);
+        htmlTransformer.transform();
         Element element = htmlTransformer.getDocument().getElementsByTag("style").first();
         assertEquals(css, element.html());
     }
@@ -45,6 +48,7 @@ public class HtmlTransformerTest extends TestCase {
     public void testShouldNotTransformLinkCanonical() {
         String html = "<link rel=\"canonical\" href=\"http:/www.cedricblondeau.com\">";
         HtmlTransformer htmlTransformer = getHtmlTransformer(html);
+        htmlTransformer.transform();
         Element element = htmlTransformer.getDocument().getElementsByTag("link").first();
         assertEquals(html, element.outerHtml());
     }

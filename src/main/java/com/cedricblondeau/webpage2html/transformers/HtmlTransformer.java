@@ -19,10 +19,9 @@ public final class HtmlTransformer {
         document = Jsoup.parse(content, url.toExternalForm());
         this.baseUrl = url;
         this.charset = charset;
-        transform();
     }
 
-    private void transform() {
+    public void transform() {
         injectEncoding();
         transformStyle();
         transformLink();
