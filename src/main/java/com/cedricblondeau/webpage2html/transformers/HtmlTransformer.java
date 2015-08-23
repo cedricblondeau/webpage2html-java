@@ -7,6 +7,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.logging.Logger;
 import java.net.URL;
 
 public final class HtmlTransformer {
@@ -14,6 +15,7 @@ public final class HtmlTransformer {
     private Document document;
     private URL baseUrl;
     private String charset;
+    private static final Logger logger = Logger.getLogger(HtmlTransformer.class.getName());
 
     public HtmlTransformer(String content, URL url, String charset) {
         document = Jsoup.parse(content, url.toExternalForm());
@@ -33,6 +35,7 @@ public final class HtmlTransformer {
         if (charset instanceof String) {
             boolean charsetDefinitionFound = document.head().getElementsByTag("meta").hasAttr("charset");
             if (!charsetDefinitionFound) {
+                logger.info(String.format("Injecting charset %s", charset));
                 document.head().append(String.format("<meta charset=\"%s\"/>", charset));
             }
         }
@@ -41,6 +44,7 @@ public final class HtmlTransformer {
     private void transformStyle() {
         Elements styleElements = document.getElementsByAttribute("style");
         for (Element element : styleElements) {
+            logger.info("Transforming inline style");
             CssTransformer cssTransformer = new CssTransformer(element.attr("style"), baseUrl);
             element.attr("style", cssTransformer.getContent());
         }
@@ -53,6 +57,7 @@ public final class HtmlTransformer {
             if (!rel.isEmpty() && (rel.equals("stylesheet") || rel.equals("icon"))) {
                 String href = element.attr("href");
                 if (!href.isEmpty() && !href.startsWith("data:")) {
+                    logger.info(String.format("Transforming link %s", element.attr("href")));
                     Transformer transformer = new TransformerFactory().get(element.attr("href"), baseUrl);
                     if (transformer instanceof Transformer) {
                         if (transformer instanceof CssTransformer) {
@@ -71,6 +76,7 @@ public final class HtmlTransformer {
         Elements scriptElements = document.getElementsByTag("script");
         for (Element element : scriptElements) {
             if (element.hasAttr("src") && !element.attr("src").isEmpty() && !element.attr("src").startsWith("data:")) {
+                logger.info(String.format("Transforming script %s", element.attr("src")));
                 Transformer transformer = new TransformerFactory().get(element.attr("src"), baseUrl);
                 if (transformer instanceof Transformer) {
                     element.attr("src", transformer.getBase64());
@@ -83,6 +89,7 @@ public final class HtmlTransformer {
         Elements imgElements = document.getElementsByTag("img");
         for (Element element : imgElements) {
             if (element.hasAttr("src") && !element.attr("src").isEmpty() && !element.attr("src").startsWith("data:")) {
+                logger.info(String.format("Transforming image %s", element.attr("src")));
                 Transformer transformer = new TransformerFactory().get(element.attr("src"), baseUrl);
                 if (transformer instanceof Transformer) {
                     element.attr("src", transformer.getBase64());

@@ -4,6 +4,7 @@ import com.cedricblondeau.webpage2html.http.resource.HttpResourceFactory;
 import com.cedricblondeau.webpage2html.http.resource.HttpResource;
 
 import java.net.URL;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,6 +16,7 @@ public final class CssTransformer extends BaseTransformer implements Transformer
 
     private String content;
     private URL baseURL;
+    private static final Logger logger = Logger.getLogger(CssTransformer.class.getName());
 
     /**
      * @param content CSS content
@@ -36,6 +38,7 @@ public final class CssTransformer extends BaseTransformer implements Transformer
             String foundURL = m.group(1);
             foundURL = foundURL.replace("\"", "").replace("\'", "");
             if (!foundURL.startsWith("data:")) {
+                logger.info(String.format("%s - Transforming %s", baseURL, foundURL));
                 HttpResource httpResource = new HttpResourceFactory().get(foundURL, baseURL);
                 if (httpResource instanceof HttpResource) {
                     BaseTransformer transformer = new BaseTransformer(httpResource.getMediaType());

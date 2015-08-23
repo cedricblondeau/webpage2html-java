@@ -6,14 +6,17 @@ import com.squareup.okhttp.ResponseBody;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class HttpResourceFactory {
+
+    private static final Logger logger = Logger.getLogger(HttpResourceFactory.class.getName());
 
     public HttpResource get(String resourceUrl, URL baseURL) {
         try {
             // Validate URL
             URL url = new URL(baseURL, resourceUrl);
-            System.out.println(String.format("Downloading %s", url));
 
             // Get HttpResource
             HttpResource httpResource;
@@ -26,9 +29,10 @@ public final class HttpResourceFactory {
             }
             return httpResource;
         } catch (MalformedURLException e) {
-            System.out.println(e.getMessage());
+            logger.log(Level.WARNING, e.getMessage());
             return null;
         } catch (NullPointerException e) {
+            logger.log(Level.SEVERE, e.getMessage());
             return null;
         }
     }

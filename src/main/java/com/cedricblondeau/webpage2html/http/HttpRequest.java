@@ -6,11 +6,14 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public final class HttpRequest {
 
     private OkHttpClient client = new OkHttpClient();
     private Response response;
+    private static final Logger logger = Logger.getLogger(HttpRequest.class.getName());
 
     /**
      * @param url
@@ -39,7 +42,7 @@ public final class HttpRequest {
             Response response = client.newCall(request).execute();
             return response;
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage());
             return null;
         }
     }
