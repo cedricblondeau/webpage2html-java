@@ -91,14 +91,23 @@ public final class HtmlTransformer {
         }
     }
 
+    /**
+     * @return JSoup Document
+     */
     public Document getDocument() {
         return document;
     }
 
+    /**
+     * @return JSoup Document inner HTML
+     */
     public String getHtml() {
         return document.html();
     }
 
+    /**
+     * @return JSoup Document title
+     */
     public String getTitle() {
         return document.title();
     }
