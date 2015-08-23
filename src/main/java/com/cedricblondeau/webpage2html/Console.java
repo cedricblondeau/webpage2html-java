@@ -6,7 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class Console {
+public final class Console {
 
     public static void main(String[] args)
     {

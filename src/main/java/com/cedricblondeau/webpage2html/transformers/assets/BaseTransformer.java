@@ -4,8 +4,8 @@ import okio.ByteString;
 
 public class BaseTransformer implements ITransformer {
 
-    protected byte[] data;
-    protected String mediaType;
+    private byte[] data;
+    private String mediaType;
 
     /**
      * @param mediaType (e.g: text/css, text/javascript, etc.)

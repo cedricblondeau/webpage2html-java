@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-public class WebPage2Html {
+public final class WebPage2Html {
 
-    HtmlTransformer htmlTransformer;
+    private HtmlTransformer htmlTransformer;
 
     public WebPage2Html(URL url) {
         try {

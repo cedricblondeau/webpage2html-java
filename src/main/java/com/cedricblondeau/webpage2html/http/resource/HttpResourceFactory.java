@@ -7,7 +7,7 @@ import com.squareup.okhttp.ResponseBody;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class HttpResourceFactory {
+public final class HttpResourceFactory {
 
     public IHttpResource get(String resourceUrl, URL baseURL) {
         try {

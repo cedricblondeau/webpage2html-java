@@ -6,11 +6,11 @@ import com.squareup.okhttp.ResponseBody;
 import java.io.IOException;
 import java.net.URL;
 
-public class HttpResource implements IHttpResource {
+public final class HttpResource implements IHttpResource {
 
-    URL url;
-    ResponseBody responseBody;
-    String mediaType;
+    private URL url;
+    private ResponseBody responseBody;
+    private String mediaType;
 
     public HttpResource(ResponseBody responseBody, URL url) {
         this.responseBody = responseBody;
@@ -18,7 +18,7 @@ public class HttpResource implements IHttpResource {
         buildMediaType();
     }
 
-    protected void buildMediaType() {
+    private void buildMediaType() {
         MediaType contentType = responseBody.contentType();
         this.mediaType = String.format("%s/%s", contentType.type(), contentType.subtype());
     }

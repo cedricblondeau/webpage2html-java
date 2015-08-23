@@ -2,11 +2,11 @@ package com.cedricblondeau.webpage2html.http.resource;
 
 import java.net.URL;
 
-public class HttpDummyResource implements IHttpResource {
-    URL url;
-    String mediaType;
-    String content;
-    byte[] data;
+public final class HttpDummyResource implements IHttpResource {
+    private URL url;
+    private String mediaType;
+    private String content;
+    private byte[] data;
 
     public HttpDummyResource(URL url, String mediaType, String content, byte[] data) {
         this.url = url;

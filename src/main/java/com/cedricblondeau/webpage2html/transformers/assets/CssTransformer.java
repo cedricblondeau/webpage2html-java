@@ -11,10 +11,10 @@ import java.util.regex.Pattern;
  * TODO:
  * - Recursively transform CSS files (@import)
  */
-public class CssTransformer extends BaseTransformer implements ITransformer {
+public final class CssTransformer extends BaseTransformer implements ITransformer {
 
-    protected String content;
-    protected URL baseURL;
+    private String content;
+    private URL baseURL;
 
     /**
      * @param content CSS content
@@ -34,8 +34,7 @@ public class CssTransformer extends BaseTransformer implements ITransformer {
         Matcher m = Pattern.compile("url\\((.*?)\\)").matcher(content);
         while(m.find()) {
             String foundURL = m.group(1);
-            foundURL = foundURL.replace("\"", "");
-            foundURL = foundURL.replace("\'", "");
+            foundURL = foundURL.replace("\"", "").replace("\'", "");
             if (!foundURL.startsWith("data:")) {
                 IHttpResource httpResource = new HttpResourceFactory().get(foundURL, baseURL);
                 if (httpResource instanceof IHttpResource) {
@@ -59,7 +58,7 @@ public class CssTransformer extends BaseTransformer implements ITransformer {
      */
     @Override
     public String getBase64() {
-        this.data = this.content.getBytes();
+        setData(this.content.getBytes());
         return super.getBase64();
     }
 }

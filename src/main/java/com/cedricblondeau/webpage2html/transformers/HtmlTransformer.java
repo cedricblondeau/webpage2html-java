@@ -9,11 +9,11 @@ import org.jsoup.select.Elements;
 
 import java.net.URL;
 
-public class HtmlTransformer {
+public final class HtmlTransformer {
 
-    protected Document document;
-    protected URL baseUrl;
-    protected String charset;
+    private Document document;
+    private URL baseUrl;
+    private String charset;
 
     public HtmlTransformer(String content, URL url, String charset) {
         document = Jsoup.parse(content, url.toExternalForm());
@@ -22,7 +22,7 @@ public class HtmlTransformer {
         transform();
     }
 
-    protected void transform() {
+    private void transform() {
         injectEncoding();
         transformStyle();
         transformLink();
@@ -30,7 +30,7 @@ public class HtmlTransformer {
         transformImg();
     }
 
-    protected void injectEncoding() {
+    private void injectEncoding() {
         if (charset instanceof String) {
             boolean charsetDefinitionFound = document.head().getElementsByTag("meta").hasAttr("charset");
             if (!charsetDefinitionFound) {
@@ -39,7 +39,7 @@ public class HtmlTransformer {
         }
     }
 
-    protected void transformStyle() {
+    private void transformStyle() {
         Elements styleElements = document.getElementsByAttribute("style");
         for (Element element : styleElements) {
             CssTransformer cssTransformer = new CssTransformer(element.attr("style"), baseUrl);
@@ -47,7 +47,7 @@ public class HtmlTransformer {
         }
     }
 
-    protected void transformLink() {
+    private void transformLink() {
         Elements linkElements = document.getElementsByTag("link");
         for (Element element : linkElements) {
             String rel = element.attr("rel");
@@ -68,7 +68,7 @@ public class HtmlTransformer {
         }
     }
 
-    protected void transformScript() {
+    private void transformScript() {
         Elements scriptElements = document.getElementsByTag("script");
         for (Element element : scriptElements) {
             if (element.hasAttr("src") && !element.attr("src").isEmpty() && !element.attr("src").startsWith("data:")) {
@@ -80,7 +80,7 @@ public class HtmlTransformer {
         }
     }
 
-    protected void transformImg() {
+    private void transformImg() {
         Elements imgElements = document.getElementsByTag("img");
         for (Element element : imgElements) {
             if (element.hasAttr("src") && !element.attr("src").isEmpty() && !element.attr("src").startsWith("data:")) {

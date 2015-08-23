@@ -8,7 +8,7 @@ import com.cedricblondeau.webpage2html.transformers.assets.ITransformer;
 
 import java.net.URL;
 
-public class TransformerFactory {
+public final class TransformerFactory {
 
     /**
      * @param url

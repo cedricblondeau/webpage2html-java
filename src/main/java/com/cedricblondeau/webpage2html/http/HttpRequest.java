@@ -7,10 +7,10 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.net.URL;
 
-public class HttpRequest {
+public final class HttpRequest {
 
-    OkHttpClient client = new OkHttpClient();
-    Response response;
+    private OkHttpClient client = new OkHttpClient();
+    private Response response;
 
     /**
      * @param url

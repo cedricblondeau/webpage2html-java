@@ -4,7 +4,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HttpCache {
+public final class HttpCache {
+
     private static HttpCache instance;
     private Map<String, Object> cache = Collections.synchronizedMap(new HashMap<String, Object>());
 
