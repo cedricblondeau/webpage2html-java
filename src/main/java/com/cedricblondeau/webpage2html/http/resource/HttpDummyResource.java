@@ -2,7 +2,7 @@ package com.cedricblondeau.webpage2html.http.resource;
 
 import java.net.URL;
 
-public final class HttpDummyResource implements IHttpResource {
+public final class HttpDummyResource implements HttpResource {
     private URL url;
     private String mediaType;
     private String content;

@@ -1,7 +1,7 @@
 package com.cedricblondeau.webpage2html.transformers;
 
 import com.cedricblondeau.webpage2html.transformers.assets.CssTransformer;
-import com.cedricblondeau.webpage2html.transformers.assets.ITransformer;
+import com.cedricblondeau.webpage2html.transformers.assets.Transformer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -54,8 +54,8 @@ public final class HtmlTransformer {
             if (!rel.isEmpty() && (rel.equals("stylesheet") || rel.equals("icon"))) {
                 String href = element.attr("href");
                 if (!href.isEmpty() && !href.startsWith("data:")) {
-                    ITransformer transformer = new TransformerFactory().get(element.attr("href"), baseUrl);
-                    if (transformer instanceof ITransformer) {
+                    Transformer transformer = new TransformerFactory().get(element.attr("href"), baseUrl);
+                    if (transformer instanceof Transformer) {
                         if (transformer instanceof CssTransformer) {
                             element.after(String.format("<style>%s</style>", ((CssTransformer) transformer).getContent()));
                             element.remove();
@@ -72,8 +72,8 @@ public final class HtmlTransformer {
         Elements scriptElements = document.getElementsByTag("script");
         for (Element element : scriptElements) {
             if (element.hasAttr("src") && !element.attr("src").isEmpty() && !element.attr("src").startsWith("data:")) {
-                ITransformer transformer = new TransformerFactory().get(element.attr("src"), baseUrl);
-                if (transformer instanceof ITransformer) {
+                Transformer transformer = new TransformerFactory().get(element.attr("src"), baseUrl);
+                if (transformer instanceof Transformer) {
                     element.attr("src", transformer.getBase64());
                 }
             }
@@ -84,8 +84,8 @@ public final class HtmlTransformer {
         Elements imgElements = document.getElementsByTag("img");
         for (Element element : imgElements) {
             if (element.hasAttr("src") && !element.attr("src").isEmpty() && !element.attr("src").startsWith("data:")) {
-                ITransformer transformer = new TransformerFactory().get(element.attr("src"), baseUrl);
-                if (transformer instanceof ITransformer) {
+                Transformer transformer = new TransformerFactory().get(element.attr("src"), baseUrl);
+                if (transformer instanceof Transformer) {
                     element.attr("src", transformer.getBase64());
                 }
             }

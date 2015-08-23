@@ -1,5 +1,5 @@
 package com.cedricblondeau.webpage2html.transformers.assets;
 
-public interface ITransformer {
+public interface Transformer {
     public String getBase64();
 }

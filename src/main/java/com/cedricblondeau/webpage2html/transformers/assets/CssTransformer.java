@@ -1,7 +1,7 @@
 package com.cedricblondeau.webpage2html.transformers.assets;
 
 import com.cedricblondeau.webpage2html.http.resource.HttpResourceFactory;
-import com.cedricblondeau.webpage2html.http.resource.IHttpResource;
+import com.cedricblondeau.webpage2html.http.resource.HttpResource;
 
 import java.net.URL;
 import java.util.regex.Matcher;
@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * TODO:
  * - Recursively transform CSS files (@import)
  */
-public final class CssTransformer extends BaseTransformer implements ITransformer {
+public final class CssTransformer extends BaseTransformer implements Transformer {
 
     private String content;
     private URL baseURL;
@@ -36,8 +36,8 @@ public final class CssTransformer extends BaseTransformer implements ITransforme
             String foundURL = m.group(1);
             foundURL = foundURL.replace("\"", "").replace("\'", "");
             if (!foundURL.startsWith("data:")) {
-                IHttpResource httpResource = new HttpResourceFactory().get(foundURL, baseURL);
-                if (httpResource instanceof IHttpResource) {
+                HttpResource httpResource = new HttpResourceFactory().get(foundURL, baseURL);
+                if (httpResource instanceof HttpResource) {
                     BaseTransformer transformer = new BaseTransformer(httpResource.getMediaType());
                     transformer.setData(httpResource.getData());
                     content = content.replace(foundURL, transformer.getBase64());

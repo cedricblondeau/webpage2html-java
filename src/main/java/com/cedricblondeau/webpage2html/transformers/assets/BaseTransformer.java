@@ -2,7 +2,7 @@ package com.cedricblondeau.webpage2html.transformers.assets;
 
 import okio.ByteString;
 
-public class BaseTransformer implements ITransformer {
+public class BaseTransformer implements Transformer {
 
     private byte[] data;
     private String mediaType;

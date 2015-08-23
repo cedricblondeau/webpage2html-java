@@ -1,10 +1,10 @@
 package com.cedricblondeau.webpage2html.transformers;
 
 import com.cedricblondeau.webpage2html.http.resource.HttpResourceFactory;
-import com.cedricblondeau.webpage2html.http.resource.IHttpResource;
+import com.cedricblondeau.webpage2html.http.resource.HttpResource;
 import com.cedricblondeau.webpage2html.transformers.assets.BaseTransformer;
 import com.cedricblondeau.webpage2html.transformers.assets.CssTransformer;
-import com.cedricblondeau.webpage2html.transformers.assets.ITransformer;
+import com.cedricblondeau.webpage2html.transformers.assets.Transformer;
 
 import java.net.URL;
 
@@ -15,16 +15,16 @@ public final class TransformerFactory {
      * @param baseURL
      * @return ITransformer
      */
-    public ITransformer get(String url, URL baseURL) {
-        IHttpResource httpResource = new HttpResourceFactory().get(url, baseURL);
+    public Transformer get(String url, URL baseURL) {
+        HttpResource httpResource = new HttpResourceFactory().get(url, baseURL);
         return this.get(httpResource);
     }
 
     /**
      * @param httpResource
-     * @return ITransformer
+     * @return Transformer
      */
-    public ITransformer get(IHttpResource httpResource) {
+    public Transformer get(HttpResource httpResource) {
         try {
             switch (httpResource.getMediaType()) {
                 case "text/css":

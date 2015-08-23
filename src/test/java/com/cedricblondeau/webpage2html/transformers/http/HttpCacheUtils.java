@@ -2,7 +2,7 @@ package com.cedricblondeau.webpage2html.transformers.http;
 
 import com.cedricblondeau.webpage2html.http.HttpCache;
 import com.cedricblondeau.webpage2html.http.resource.HttpDummyResource;
-import com.cedricblondeau.webpage2html.http.resource.IHttpResource;
+import com.cedricblondeau.webpage2html.http.resource.HttpResource;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -12,7 +12,7 @@ public class HttpCacheUtils {
 
     public static void cacheMockResourceFromBase64(String url, String mediaType, String base64) {
         try {
-            IHttpResource resource = new HttpDummyResource(
+            HttpResource resource = new HttpDummyResource(
                     new URL(url),
                     mediaType,
                     null,
@@ -26,7 +26,7 @@ public class HttpCacheUtils {
 
     public static void cacheMockResourceFromSource(String url, String mediaType, String content) {
         try {
-            IHttpResource resource = new HttpDummyResource(
+            HttpResource resource = new HttpDummyResource(
                     new URL(url),
                     mediaType,
                     content,
