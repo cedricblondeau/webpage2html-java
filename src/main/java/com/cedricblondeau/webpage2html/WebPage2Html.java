@@ -11,45 +11,54 @@ import java.nio.charset.Charset;
 
 public final class WebPage2Html {
 
-    private URL url;
+    private URL actualURl;
+    private Response httpResponse;
     private HtmlTransformer htmlTransformer;
 
     /**
-     * Create a new WebPage2Html object with a given URL
+     * Create a new WebPage2Html object & Execute HTTP request with given URL
      * @param url
      */
     public WebPage2Html(URL url) {
-        this.url = url;
+        HttpRequest httpRequest = new HttpRequest(url);
+        httpResponse = httpRequest.execute();
+        actualURl = httpResponse.request().httpUrl().url();
     }
 
     /**
-     * - execute HTTP request with given URL,
-     * - extract charset from HTTP response
-     * - build HtmlTransformer object
-     *
+     * Extract charset and content from HTTP response & build HtmlTransformer object
      * @return HtmlTransformer
      */
     public HtmlTransformer getHtmlTransformer() {
         try {
-            // HTTP Request
-            HttpRequest httpRequest = new HttpRequest(url);
-            Response httpResponse = httpRequest.execute();
+            // Extract response content
             ResponseBody responseBody = httpResponse.body();
+            String content = responseBody.string();
 
             // Extract charset from HTTP response
-            String content = responseBody.string();
             String charset = null;
             if (responseBody.contentType().charset() instanceof Charset) {
                 charset = responseBody.contentType().charset().name();
             }
 
             // Build HtmlTransformer object
-            htmlTransformer = new HtmlTransformer(content, url, charset);
+            htmlTransformer = new HtmlTransformer(content, actualURl, charset);
             htmlTransformer.transform();
             return htmlTransformer;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return null;
         }
+    }
+
+    /**
+     * Returns the actual URL, could be different from given URL (e.g. redirection)
+     * @return URL
+     */
+    public URL getUrl() {
+        return actualURl;
     }
 }
