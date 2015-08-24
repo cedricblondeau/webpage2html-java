@@ -2,6 +2,7 @@ package com.cedricblondeau.webpage2html;
 
 import com.cedricblondeau.webpage2html.http.HttpRequest;
 import com.cedricblondeau.webpage2html.transformers.HtmlTransformer;
+import com.squareup.okhttp.Response;
 import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
@@ -32,7 +33,8 @@ public final class WebPage2Html {
         try {
             // HTTP Request
             HttpRequest httpRequest = new HttpRequest(url);
-            ResponseBody responseBody = httpRequest.getResponse().body();
+            Response httpResponse = httpRequest.execute();
+            ResponseBody responseBody = httpResponse.body();
 
             // Extract charset from HTTP response
             String content = responseBody.string();

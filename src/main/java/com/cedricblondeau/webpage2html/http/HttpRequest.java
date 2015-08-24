@@ -11,33 +11,21 @@ import java.util.logging.Logger;
 
 public final class HttpRequest {
 
-    private OkHttpClient client = new OkHttpClient();
-    private Response response;
     private static final Logger logger = Logger.getLogger(HttpRequest.class.getName());
+    private OkHttpClient client = new OkHttpClient();
+    private Request request;
 
     /**
      * @param url
      */
     public HttpRequest(URL url) {
-        response = execute(build(url));
+        request = new Request.Builder().url(url).build();
     }
 
     /**
-     * @param url
-     * @return Request
-     */
-    private Request build(URL url) {
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-        return request;
-    }
-
-    /**
-     * @param request
      * @return Response
      */
-    private Response execute(Request request) {
+    public Response execute() {
         try {
             Response response = client.newCall(request).execute();
             return response;
@@ -45,12 +33,5 @@ public final class HttpRequest {
             logger.log(Level.SEVERE, e.getMessage());
             return null;
         }
-    }
-
-    /**
-     * @return Response
-     */
-    public Response getResponse() {
-        return response;
     }
 }

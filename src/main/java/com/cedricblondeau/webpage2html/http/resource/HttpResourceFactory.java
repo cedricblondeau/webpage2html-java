@@ -24,7 +24,7 @@ public final class HttpResourceFactory {
                 httpResource = (HttpResource) HttpCache.getInstance().get(url.toExternalForm());
             } else {
                 HttpRequest httpRequest = new HttpRequest(url);
-                ResponseBody responseBody = httpRequest.getResponse().body();
+                ResponseBody responseBody = httpRequest.execute().body();
                 httpResource = new HttpResponseResource(responseBody, url);
             }
             return httpResource;
