@@ -1,7 +1,8 @@
-package com.cedricblondeau.webpage2html.http.resource;
+package com.cedricblondeau.webpage2html.http;
 
-import com.cedricblondeau.webpage2html.http.HttpCache;
-import com.cedricblondeau.webpage2html.http.HttpRequest;
+import com.cedricblondeau.webpage2html.Configuration;
+import com.cedricblondeau.webpage2html.http.resource.HttpResource;
+import com.cedricblondeau.webpage2html.http.resource.HttpResponseResource;
 import com.squareup.okhttp.ResponseBody;
 
 import java.net.MalformedURLException;
@@ -12,6 +13,11 @@ import java.util.logging.Logger;
 public final class HttpResourceFactory {
 
     private static final Logger logger = Logger.getLogger(HttpResourceFactory.class.getName());
+    private Configuration configuration;
+
+    public HttpResourceFactory(Configuration configuration) {
+        this.configuration = configuration;
+    }
 
     public HttpResource get(String resourceUrl, URL baseURL) {
         try {
@@ -23,7 +29,7 @@ public final class HttpResourceFactory {
             if (HttpCache.getInstance().has(url.toExternalForm())) {
                 httpResource = (HttpResource) HttpCache.getInstance().get(url.toExternalForm());
             } else {
-                HttpRequest httpRequest = new HttpRequest(url);
+                HttpRequest httpRequest = new HttpRequest(url, configuration);
                 ResponseBody responseBody = httpRequest.execute().body();
                 httpResource = new HttpResponseResource(responseBody, url);
             }

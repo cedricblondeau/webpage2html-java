@@ -1,5 +1,6 @@
 package com.cedricblondeau.webpage2html.transformers;
 
+import com.cedricblondeau.webpage2html.Configuration;
 import com.cedricblondeau.webpage2html.transformers.http.HttpCacheUtils;
 import junit.framework.TestCase;
 import org.jsoup.nodes.Element;
@@ -11,7 +12,8 @@ public class HtmlTransformerTest extends TestCase {
 
     private HtmlTransformer getHtmlTransformer(String html) {
         try {
-            return new HtmlTransformer(html, new URL("http://www.cedricblondeau.com/"), "UTF-8");
+            URL url = new URL("http://www.cedricblondeau.com/");
+            return new HtmlTransformer(html, url, "UTF-8", new Configuration());
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;

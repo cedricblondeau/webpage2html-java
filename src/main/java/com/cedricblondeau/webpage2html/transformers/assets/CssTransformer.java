@@ -1,6 +1,7 @@
 package com.cedricblondeau.webpage2html.transformers.assets;
 
-import com.cedricblondeau.webpage2html.http.resource.HttpResourceFactory;
+import com.cedricblondeau.webpage2html.Configuration;
+import com.cedricblondeau.webpage2html.http.HttpResourceFactory;
 import com.cedricblondeau.webpage2html.http.resource.HttpResource;
 
 import java.net.URL;
@@ -16,16 +17,18 @@ public final class CssTransformer extends BaseTransformer implements Transformer
 
     private String content;
     private URL baseURL;
+    private Configuration configuration;
     private static final Logger logger = Logger.getLogger(CssTransformer.class.getName());
 
     /**
      * @param content CSS content
      * @param baseURL CSS file base URL
      */
-    public CssTransformer(String content, URL baseURL) {
+    public CssTransformer(String content, URL baseURL, Configuration configuration) {
         super("text/css");
         this.content = content;
         this.baseURL = baseURL;
+        this.configuration = configuration;
         transform();
     }
 
@@ -39,7 +42,7 @@ public final class CssTransformer extends BaseTransformer implements Transformer
             foundURL = foundURL.replace("\"", "").replace("\'", "");
             if (!foundURL.startsWith("data:")) {
                 logger.info(String.format("%s - Transforming %s", baseURL, foundURL));
-                HttpResource httpResource = new HttpResourceFactory().get(foundURL, baseURL);
+                HttpResource httpResource = new HttpResourceFactory(configuration).get(foundURL, baseURL);
                 if (httpResource instanceof HttpResource) {
                     BaseTransformer transformer = new BaseTransformer(httpResource.getMediaType());
                     transformer.setData(httpResource.getData());

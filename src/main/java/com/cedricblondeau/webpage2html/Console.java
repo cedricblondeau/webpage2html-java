@@ -1,7 +1,5 @@
 package com.cedricblondeau.webpage2html;
 
-import com.cedricblondeau.webpage2html.transformers.HtmlTransformer;
-
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -17,14 +15,13 @@ public final class Console {
             String url = args[0];
             String fileName = args[1];
 
-            // Transform
+            // WebPage2Html
             WebPage2Html webPage2Html = new WebPage2Html(new URL(url));
-            HtmlTransformer htmlTransformer = webPage2Html.getHtmlTransformer();
-            htmlTransformer.transform();
+            WebPage2HtmlResult webPage2HtmlResult = webPage2Html.execute();
 
             // Write to given file
             PrintWriter printWriter = new PrintWriter(fileName, "utf-8");
-            printWriter.print(htmlTransformer.getHtml());
+            printWriter.print(webPage2HtmlResult.getHtml());
             printWriter.close();
 
         } catch (ArrayIndexOutOfBoundsException e) {

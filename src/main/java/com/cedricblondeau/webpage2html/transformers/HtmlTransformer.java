@@ -1,5 +1,6 @@
 package com.cedricblondeau.webpage2html.transformers;
 
+import com.cedricblondeau.webpage2html.Configuration;
 import com.cedricblondeau.webpage2html.transformers.assets.CssTransformer;
 import com.cedricblondeau.webpage2html.transformers.assets.Transformer;
 import org.jsoup.Jsoup;
@@ -12,15 +13,17 @@ import java.net.URL;
 
 public final class HtmlTransformer {
 
+    private Configuration configuration;
     private Document document;
-    private URL baseUrl;
+    private URL url;
     private String charset;
     private static final Logger logger = Logger.getLogger(HtmlTransformer.class.getName());
 
-    public HtmlTransformer(String content, URL url, String charset) {
+    public HtmlTransformer(String content, URL url, String charset, Configuration configuration) {
         document = Jsoup.parse(content, url.toExternalForm());
-        this.baseUrl = url;
+        this.url = url;
         this.charset = charset;
+        this.configuration = configuration;
     }
 
     public void transform() {
@@ -45,7 +48,7 @@ public final class HtmlTransformer {
         Elements styleElements = document.getElementsByAttribute("style");
         for (Element element : styleElements) {
             logger.info("Transforming inline style");
-            CssTransformer cssTransformer = new CssTransformer(element.attr("style"), baseUrl);
+            CssTransformer cssTransformer = new CssTransformer(element.attr("style"), url, configuration);
             element.attr("style", cssTransformer.getContent());
         }
     }
@@ -58,7 +61,7 @@ public final class HtmlTransformer {
                 String href = element.attr("href");
                 if (!href.isEmpty() && !href.startsWith("data:")) {
                     logger.info(String.format("Transforming link %s", element.attr("href")));
-                    Transformer transformer = new TransformerFactory().get(element.attr("href"), baseUrl);
+                    Transformer transformer = new TransformerFactory(configuration).get(element.attr("href"), url);
                     if (transformer instanceof Transformer) {
                         if (transformer instanceof CssTransformer) {
                             element.after(String.format("<style>%s</style>", ((CssTransformer) transformer).getContent()));
@@ -77,7 +80,7 @@ public final class HtmlTransformer {
         for (Element element : scriptElements) {
             if (element.hasAttr("src") && !element.attr("src").isEmpty() && !element.attr("src").startsWith("data:")) {
                 logger.info(String.format("Transforming script %s", element.attr("src")));
-                Transformer transformer = new TransformerFactory().get(element.attr("src"), baseUrl);
+                Transformer transformer = new TransformerFactory(configuration).get(element.attr("src"), url);
                 if (transformer instanceof Transformer) {
                     element.attr("src", transformer.getBase64());
                 }
@@ -90,7 +93,7 @@ public final class HtmlTransformer {
         for (Element element : imgElements) {
             if (element.hasAttr("src") && !element.attr("src").isEmpty() && !element.attr("src").startsWith("data:")) {
                 logger.info(String.format("Transforming image %s", element.attr("src")));
-                Transformer transformer = new TransformerFactory().get(element.attr("src"), baseUrl);
+                Transformer transformer = new TransformerFactory(configuration).get(element.attr("src"), url);
                 if (transformer instanceof Transformer) {
                     element.attr("src", transformer.getBase64());
                 }
@@ -117,5 +120,12 @@ public final class HtmlTransformer {
      */
     public String getTitle() {
         return document.title();
+    }
+
+    /**
+     * @return URL
+     */
+    public URL getUrl() {
+        return url;
     }
 }
