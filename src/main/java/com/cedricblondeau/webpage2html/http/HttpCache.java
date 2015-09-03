@@ -6,13 +6,12 @@ import java.util.Map;
 
 public final class HttpCache {
 
-    private static HttpCache instance;
+    private static final HttpCache instance = new HttpCache();
     private Map<String, Object> cache = Collections.synchronizedMap(new HashMap<String, Object>());
 
+    private HttpCache() {}
+
     public static HttpCache getInstance() {
-        if (instance == null) {
-            instance = new HttpCache();
-        }
         return instance;
     }
 
