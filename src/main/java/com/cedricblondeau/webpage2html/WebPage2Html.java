@@ -37,40 +37,31 @@ public final class WebPage2Html {
      *
      * @return WebPage2HtmlResult
      */
-    public WebPage2HtmlResult execute() {
-        try {
-            // If no configuration given, create a default one
-            if (configuration == null) {
-                configuration = new Configuration();
-            }
-
-            // Execute request
-            HttpRequest httpRequest = new HttpRequest(requestURL, configuration);
-            Response httpResponse = httpRequest.execute();
-            URL actualURl = httpResponse.request().httpUrl().url();
-
-            // Extract content and charset
-            ResponseBody responseBody = httpResponse.body();
-            String content = responseBody.string();
-            String charset = null;
-            if (responseBody.contentType().charset() instanceof Charset) {
-                charset = responseBody.contentType().charset().name();
-            }
-
-            // Build HtmlTransformer object and transform
-            HtmlTransformer htmlTransformer = new HtmlTransformer(content, actualURl, charset, configuration);
-            htmlTransformer.transform();
-
-            // Build a WebPage2HtmlResult object
-            WebPage2HtmlResult webPage2HtmlResult = new WebPage2HtmlResult(htmlTransformer);
-            return webPage2HtmlResult;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            return null;
+    public WebPage2HtmlResult execute() throws IOException {
+        // If no configuration given, create a default one
+        if (configuration == null) {
+            configuration = new Configuration();
         }
+
+        // Execute request
+        HttpRequest httpRequest = new HttpRequest(requestURL, configuration);
+        Response httpResponse = httpRequest.execute();
+        URL actualURl = httpResponse.request().httpUrl().url();
+
+        // Extract content and charset
+        ResponseBody responseBody = httpResponse.body();
+        String content = responseBody.string();
+        String charset = null;
+        if (responseBody.contentType().charset() instanceof Charset) {
+            charset = responseBody.contentType().charset().name();
+        }
+
+        // Build HtmlTransformer object and transform
+        HtmlTransformer htmlTransformer = new HtmlTransformer(content, actualURl, charset, configuration);
+        htmlTransformer.transform();
+
+        // Build a WebPage2HtmlResult object
+        WebPage2HtmlResult webPage2HtmlResult = new WebPage2HtmlResult(htmlTransformer);
+        return webPage2HtmlResult;
     }
 }

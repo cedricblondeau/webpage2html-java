@@ -1,6 +1,7 @@
 package com.cedricblondeau.webpage2html;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -32,6 +33,8 @@ public final class Console {
             System.out.println("File not found");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         }
     }
 }

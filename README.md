@@ -16,7 +16,7 @@ Java 1.7 and Android compatible. Still in early development.
 ### Usage
 ```java
 // Build a WebPage2Html object from a java.net.URL object
-URL url = new URL("http://rtw.cedricblondeau.com"); // Input URL
+URL url = new URL("http://rtw.cedricblondeau.com"); // Input URL, throws MalformedURLException
 WebPage2Html webPage2Html = new WebPage2Html(url);
 
 // Optionally: Pass a custom configuration object
@@ -25,7 +25,7 @@ configuration.setUserAgent("Android"); // Custom user-agent
 webPage2Html.setConfiguration(configuration);
 
 // execute() method returns a WebPage2HtmlResult object
-WebPage2HtmlResult webPage2HtmlResult = webPage2Html.execute();
+WebPage2HtmlResult webPage2HtmlResult = webPage2Html.execute(); // throws IOException
 webPage2HtmlResult.getUrl();    // Actual URL, could be different from input URL (e.g. redirection)
 webPage2HtmlResult.getTitle();  // HTML document title
 webPage2HtmlResult.getHtml();   // Transformed HTML content

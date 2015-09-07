@@ -7,12 +7,9 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public final class HttpRequest {
 
-    private static final Logger logger = Logger.getLogger(HttpRequest.class.getName());
     private OkHttpClient client = new OkHttpClient();
     private Request request;
 
@@ -31,13 +28,8 @@ public final class HttpRequest {
     /**
      * @return Response
      */
-    public Response execute() {
-        try {
-            Response response = client.newCall(request).execute();
-            return response;
-        } catch (IOException e) {
-            logger.log(Level.SEVERE, e.getMessage());
-            return null;
-        }
+    public Response execute() throws IOException {
+        Response response = client.newCall(request).execute();
+        return response;
     }
 }
