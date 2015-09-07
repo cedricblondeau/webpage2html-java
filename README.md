@@ -5,23 +5,33 @@ Initially a Java port of [zTrix/webpage2html](https://github.com/zTrix/webpage2h
 
 Java 1.7 and Android compatible. Still in early development.
 
-
 ### Known limitations
-- HTTP user agent is default [OkHttp](https://github.com/square/okhttp) one ("okhttp/2.4.0"). Some websites may serve different content or just block requests. [User agent spoofing](https://en.wikipedia.org/wiki/User_agent#User_agent_spoofing) may fix this but I won't help with that.
-- In a few cases, [data URIs (base64) could be slower than source linking](http://www.mobify.com/blog/data-uris-are-slow-on-mobile/)
+- HTTP user agent is default [OkHttp](https://github.com/square/okhttp) one ("okhttp/2.4.0"). Some websites may serve different content or just block requests. [User agent spoofing](https://en.wikipedia.org/wiki/User_agent#User_agent_spoofing) may fix this but you should use this responsibly.
+- [Data URIs (base64) could be slower than source linking](http://www.mobify.com/blog/data-uris-are-slow-on-mobile/)
 
 ### Dependencies
 - [jsoup](https://github.com/jhy/jsoup)
 - [OkHttp](https://github.com/square/okhttp)
 
+### Usage
+```java
+// Build a WebPage2Html object from a java.net.URL object
+URL url = new URL("http://rtw.cedricblondeau.com"); // Input URL
+WebPage2Html webPage2Html = new WebPage2Html(url);
+
+// Optionally: Pass a custom configuration object
+Configuration configuration = new Configuration();
+configuration.setUserAgent("Android"); // Custom user-agent
+webPage2Html.setConfiguration(configuration);
+
+// execute() method returns a WebPage2HtmlResult object
+WebPage2HtmlResult webPage2HtmlResult = webPage2Html.execute();
+webPage2HtmlResult.getUrl();    // Actual URL, could be different from input URL (e.g. redirection)
+webPage2HtmlResult.getTitle();  // HTML document title
+webPage2HtmlResult.getHtml();   // Transformed HTML content
+```
+
 ### CLI usage using Gradle
 ```
 ./gradlew run -Dexec.args="http://rtw.cedricblondeau.com out.html"
 ```
-
-### TODO
-- Improve unit tests
-- Recursively transform CSS files (@import)
-- Transform JS files
-- Improve performance
-- Process "invalid" URLs
